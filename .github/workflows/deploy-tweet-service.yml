@@ -17,11 +17,11 @@ jobs:
       - name: Build and Deploy Tweet Service
         env:
           DROPLET_IP: "137.184.227.182"
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}  # Still a secret for SSH
+          DB_USERNAME: "doadmin"
+          DB_PASSWORD: "AVNS_UgBbc5qG3_vTVUgHgTB"
+          AWS_ACCESS_KEY_ID: "AKIA4VDBL3WIGWRIK5KE"
+          AWS_SECRET_ACCESS_KEY: "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"
         run: |
           cd tweet-services
           mvn clean package -DskipTests
@@ -35,8 +35,6 @@ jobs:
           ssh -i ssh_key.pem -o StrictHostKeyChecking=no root@$DROPLET_IP << 'EOF'
             cd /root/tweet-service
             docker build -t tweet-service:latest .
-            echo "DB_USERNAME=$DB_USERNAME"  # Debug: Print env vars
-            echo "DB_PASSWORD=$DB_PASSWORD"
             docker run -d -p 8082:8082 --name tweet-service \
               -e DB_USERNAME=$DB_USERNAME \
               -e DB_PASSWORD=$DB_PASSWORD \
