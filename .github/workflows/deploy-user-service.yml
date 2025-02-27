@@ -14,9 +14,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build and Deploy Tweet Service
+      - name: Build and Deploy User Service
         env:
-          DROPLET_IP: "137.184.227.182"
+          DROPLET_IP: "143.198.132.76"
           SSH_KEY: ${{ secrets.SSH_KEY }}
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
