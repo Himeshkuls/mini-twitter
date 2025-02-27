@@ -31,7 +31,7 @@ jobs:
             docker rm -f user-service || true
             docker rmi user-service:latest || true
           EOF
-          scp -i ssh_key.pem -r . root@$DROPLET_IP:/root/tweet-service
+          scp -i ssh_key.pem -r . root@$DROPLET_IP:/root/user-service
           ssh -i ssh_key.pem -o StrictHostKeyChecking=no root@$DROPLET_IP << EOF
             cd /root/user-service
             docker build -t user-service:latest .
@@ -39,10 +39,10 @@ jobs:
             echo "DB_PASSWORD=$DB_PASSWORD"
             echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID"
             echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY"
-            docker run -d -p 8082:8082 --name tweet-service \
+            docker run -d -p 8082:8082 --name user-service \
               -e DB_USERNAME=$DB_USERNAME \
               -e DB_PASSWORD=$DB_PASSWORD \
               -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
               -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
-              tweet-service:latest
+              user-service:latest
           EOF
