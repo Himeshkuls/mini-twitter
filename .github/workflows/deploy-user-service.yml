@@ -28,13 +28,13 @@ jobs:
           echo "$SSH_KEY" > ssh_key.pem
           chmod 600 ssh_key.pem
           ssh -i ssh_key.pem -o StrictHostKeyChecking=no root@$DROPLET_IP << EOF
-            docker rm -f tweet-service || true
-            docker rmi tweet-service:latest || true
+            docker rm -f user-service || true
+            docker rmi user-service:latest || true
           EOF
           scp -i ssh_key.pem -r . root@$DROPLET_IP:/root/tweet-service
           ssh -i ssh_key.pem -o StrictHostKeyChecking=no root@$DROPLET_IP << EOF
-            cd /root/tweet-service
-            docker build -t tweet-service:latest .
+            cd /root/user-service
+            docker build -t user-service:latest .
             echo "DB_USERNAME=$DB_USERNAME"
             echo "DB_PASSWORD=$DB_PASSWORD"
             echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID"
