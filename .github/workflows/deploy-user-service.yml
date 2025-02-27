@@ -39,7 +39,7 @@ jobs:
             echo "DB_PASSWORD=$DB_PASSWORD"
             echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID"
             echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY"
-            docker run -d -p 8082:8082 --name user-service \
+            docker run -d -p 8081:8081 --name user-service \
               -e DB_USERNAME=$DB_USERNAME \
               -e DB_PASSWORD=$DB_PASSWORD \
               -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
