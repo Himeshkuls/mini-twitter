@@ -18,8 +18,12 @@ jobs:
         env:
           DROPLET_IP: "137.184.227.182"
           SSH_KEY: ${{ secrets.SSH_KEY }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          cd tweet-service
+          cd tweet-services
           mvn clean package -DskipTests
           echo "$SSH_KEY" > ssh_key.pem
           chmod 600 ssh_key.pem
@@ -31,5 +35,10 @@ jobs:
           ssh -i ssh_key.pem -o StrictHostKeyChecking=no root@$DROPLET_IP << 'EOF'
             cd /root/tweet-service
             docker build -t tweet-service:latest .
-            docker run -d -p 8082:8082 --name tweet-service tweet-service:latest
+            docker run -d -p 8082:8082 --name tweet-service \
+              -e DB_USERNAME=$DB_USERNAME \
+              -e DB_PASSWORD=$DB_PASSWORD \
+              -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+              -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+              tweet-service:latest
           EOF
